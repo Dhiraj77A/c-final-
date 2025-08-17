@@ -21,7 +21,7 @@ private:
     sf::Font font;
     sf::Text turnText;
     sf::Text statusText;
-    // Move history
+    // move history
     std::vector<std::pair<std::string, std::string>> moveHistory;
     float historyPanelWidth = 260.f;
     float boardLeftPadding = 25.f;
@@ -39,7 +39,7 @@ private:
     float restartHeight = 48.f;
     sf::RectangleShape banner;
     sf::Text bannerText;
-    // Sounds
+    // sounds
     sf::SoundBuffer moveBuffer;
     sf::Sound moveSound;
     bool moveSoundLoaded = false;
@@ -101,7 +101,7 @@ private:
         case pieceType::KNIGHT:
             return "N";
         default:
-            return ""; // Pawn has no letter in SAN
+            return ""; // pawn has no letter in SAN
         }
     }
 
@@ -112,7 +112,7 @@ private:
         return (fromX == toX) && (std::abs(toY - fromY) == 2);
     }
 
-    // Determine if any other same-type piece can also move to (toX,toY) from a different square
+    // determine if any other same type piece can also move to (toX,toY) from a different square
     std::string disambiguator(pieceType t, Color color, int fromX, int fromY, int toX, int toY)
     {
         if (t == pieceType::PAWN)
@@ -183,13 +183,13 @@ private:
             return coordToNotation(fromX, fromY) + "-" + coordToNotation(toX, toY);
         pieceType t = moverPiece->getType();
 
-        // Castling
+        // castling
         if (isCastlingMove(fromX, fromY, toX, toY, moverPiece))
         {
             return (toY > fromY) ? "O-O" : "O-O-O";
         }
 
-        // Capture detection: target occupied by enemy OR en passant
+        // capture detection
         bool wasTargetOccupied = false;
         Piece *target = board.getPieceAt(toX, toY);
         if (target && target->getColor() != mover)
@@ -223,7 +223,7 @@ private:
             san += coordToNotation(toX, toY);
         }
 
-        // Promotion
+        // promotion
         if (t == pieceType::PAWN)
         {
             bool toLastRank = (mover == Color::WHITE && toX == 0) || (mover == Color::BLACK && toX == 7);
@@ -320,20 +320,6 @@ private:
                 break;
             }
         }
-
-        {
-            const unsigned int sampleRate = 44100;
-            const unsigned int channelCount = 1;
-            const unsigned int ms = 10;
-            std::size_t sampleCount = (sampleRate * ms) / 1000;
-            std::vector<sf::Int16> samples(sampleCount * channelCount, 0);
-            if (warmupBuffer.loadFromSamples(samples.data(), static_cast<unsigned int>(samples.size()), channelCount, sampleRate))
-            {
-                warmupSound.setBuffer(warmupBuffer);
-                warmupSound.setVolume(0.f);
-                warmupSound.play();
-            }
-        }
     }
 
     inline void playInstantly(sf::Sound &s)
@@ -368,7 +354,7 @@ private:
         restartShadowRight.setPosition(x + w - h, y + 4.f);
         restartShadowRight.setFillColor(sf::Color(0, 0, 0, 80));
 
-        // Core pill (green)
+        //green button pill
         restartCore.setSize(coreSize);
         restartCore.setPosition(x + radius, y);
         sf::Color normalGreen(46, 204, 113);
@@ -382,7 +368,7 @@ private:
         restartRightCap.setPosition(x + w - h, y);
         restartRightCap.setFillColor(normalGreen);
 
-        // Text
+        // text
         restartButtonText.setFont(font);
         restartButtonText.setString("Restart");
         restartButtonText.setCharacterSize(22);
